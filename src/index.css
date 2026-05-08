@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#030303] text-white font-sans antialiased selection:bg-neon/30 selection:text-neon;
+  }
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  /* Stronger glassmorphism with dynamic lighting */
+  .glass-card {
+    @apply bg-zinc-900/40 backdrop-blur-2xl border border-white/5 rounded-[2rem] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Layered luxury cards */
+  .layered-card {
+    @apply relative z-10;
+  }
+  .layered-card::before {
+    content: '';
+    @apply absolute -inset-0.5 bg-gradient-to-br from-white/10 to-transparent rounded-[2rem] -z-10 blur-[1px] opacity-50;
+  }
+
+  /* Immersive glow effects */
+  .neon-glow {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4), inset 0 0 10px rgba(57, 255, 20, 0.2);
+  }
+  .neon-glow-strong {
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.6), inset 0 0 15px rgba(57, 255, 20, 0.3);
+  }
+  .neon-glow-text {
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+  }
+  
+  /* Background ambient orbs */
+  .ambient-orb {
+    @apply absolute rounded-full mix-blend-screen filter blur-[100px] opacity-30 pointer-events-none;
+  }
+}
