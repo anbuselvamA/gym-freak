@@ -128,13 +128,27 @@ export default function FoodTracking() {
   const { targets, goal, weight, name } = userData || {};
 
   const calorieTarget = targets?.calories || 2500;
-  const protein = targets?.protein || 150;
-  const carbs = targets?.carbs || 200;
-  const fats = targets?.fats || 60;
+  const targetProtein = targets?.protein || 150;
+  const targetCarbs = targets?.carbs || 200;
+  const targetFats = targets?.fats || 60;
 
   const consumedCals = foodLog?.totalCals || 0;
   const loggedMeals = foodLog?.meals || [];
   const percentage = Math.min(Math.round((consumedCals / calorieTarget) * 100), 100);
+
+  let currentProtein = 0;
+  let currentCarbs = 0;
+  let currentFats = 0;
+
+  loggedMeals.forEach(meal => {
+    if (meal.foodItems) {
+      meal.foodItems.forEach(item => {
+        currentProtein += (Number(item.protein) || 0);
+        currentCarbs += (Number(item.carbs) || 0);
+        currentFats += (Number(item.fats) || 0);
+      });
+    }
+  });
 
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [expandedMealIdx, setExpandedMealIdx] = useState(null);
@@ -197,9 +211,9 @@ export default function FoodTracking() {
 
       {/* Macro Quick View */}
       <div className="grid grid-cols-3 gap-3 mb-8">
-        <MacroChip icon={Beef} label="Protein" value={`${protein}g`} color="text-neon" />
-        <MacroChip icon={Wheat} label="Carbs" value={`${carbs}g`} color="text-blue-400" />
-        <MacroChip icon={Droplets} label="Fats" value={`${fats}g`} color="text-yellow-400" />
+        <MacroChip icon={Beef} label="Protein" current={Math.round(currentProtein)} target={targetProtein} color="text-neon" />
+        <MacroChip icon={Wheat} label="Carbs" current={Math.round(currentCarbs)} target={targetCarbs} color="text-blue-400" />
+        <MacroChip icon={Droplets} label="Fats" current={Math.round(currentFats)} target={targetFats} color="text-yellow-400" />
       </div>
 
       {/* AI Meal Plan — with Quick Log buttons */}
@@ -411,11 +425,13 @@ export default function FoodTracking() {
   );
 }
 
-function MacroChip({ icon: Icon, label, value, color }) {
+function MacroChip({ icon: Icon, label, current, target, color }) {
   return (
     <div className="glass-card p-3 flex flex-col items-center text-center gap-1">
       <Icon size={16} className={color} />
-      <span className={`text-sm font-black ${color}`}>{value}</span>
+      <span className={`text-sm font-black ${color}`}>
+        {current} <span className="text-[10px] text-gray-500 font-bold">/ {target}g</span>
+      </span>
       <span className="text-[9px] text-gray-500 font-bold uppercase tracking-widest">{label}</span>
     </div>
   );
