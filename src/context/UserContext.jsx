@@ -110,6 +110,12 @@ export const UserProvider = ({ children }) => {
     return entry ? entry.steps : 0;
   };
 
+  const getBurnedCals = () => {
+    const steps = getTodaySteps();
+    // Estimation: 1000 steps ~ 40 kcal (0.04 kcal per step)
+    return steps * 0.04;
+  };
+
   const saveOnboardingData = (data) => {
     // Basic calculation logic
     // BMR estimation (Mifflin-St Jeor simplified)
@@ -173,7 +179,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ userData, saveOnboardingData, resetData, saveSteps, getTodaySteps, stepsHistory, foodLog, logMeal }}>
+    <UserContext.Provider value={{ userData, saveOnboardingData, resetData, saveSteps, getTodaySteps, getBurnedCals, stepsHistory, foodLog, logMeal }}>
       {children}
     </UserContext.Provider>
   );

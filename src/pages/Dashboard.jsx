@@ -7,11 +7,12 @@ import { useUser } from '../context/UserContext';
 const COLORS = ['#FFB800', '#1e1e1e'];
 
 export default function Dashboard() {
-  const { userData, foodLog, getTodaySteps } = useUser();
+  const { userData, foodLog, getTodaySteps, getBurnedCals } = useUser();
   const { targets, name } = userData || { targets: { calories: 2500, steps: 10000, water: 3.0, protein: 150, carbs: 200, fats: 60 }, name: 'Guest' };
   
   // Real steps from UserContext
   const todaySteps = getTodaySteps();
+  const burnedCals = getBurnedCals();
   const displaySteps = todaySteps >= 1000 ? (todaySteps / 1000).toFixed(1) + 'k' : todaySteps.toString();
   
   // Real consumed from daily food log (resets each day)
@@ -70,14 +71,18 @@ export default function Dashboard() {
             <span className="text-xs text-gray-400 uppercase tracking-widest mt-1 font-medium">kcal</span>
           </div>
         </div>
-        <div className="flex justify-between w-full mt-6 text-sm px-4">
+        <div className="grid grid-cols-3 w-full mt-6 text-sm px-2 text-center divide-x divide-white/10">
           <div className="flex flex-col">
-            <span className="text-gray-400 text-xs uppercase tracking-wider mb-1">Consumed</span>
-            <span className="font-bold text-white text-lg">{consumedCals} <span className="text-xs font-normal text-gray-500">kcal</span></span>
+            <span className="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Consumed</span>
+            <span className="font-bold text-white text-lg">{consumedCals}</span>
           </div>
-          <div className="flex flex-col text-right">
-            <span className="text-gray-400 text-xs uppercase tracking-wider mb-1">Target</span>
-            <span className="font-bold text-white text-lg">{targets.calories} <span className="text-xs font-normal text-gray-500">kcal</span></span>
+          <div className="flex flex-col">
+            <span className="text-neon text-[10px] uppercase tracking-wider mb-1">Burned</span>
+            <span className="font-bold text-white text-lg">{burnedCals.toFixed(0)}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Target</span>
+            <span className="font-bold text-white text-lg">{targets.calories}</span>
           </div>
         </div>
       </section>

@@ -1,17 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Moon, HeartPulse, Footprints, Droplets, Activity, Settings, Target, User, TrendingUp, ChevronRight } from 'lucide-react';
+import { Moon, HeartPulse, Footprints, Droplets, Activity, Settings, Target, User, TrendingUp, Flame } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import { BarChart, Bar, XAxis, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 
 export default function Lifestyle() {
   const navigate = useNavigate();
-  const { userData, getTodaySteps, stepsHistory } = useUser();
+  const { userData, getTodaySteps, stepsHistory, getBurnedCals } = useUser();
   const { targets, name, goal, weight, gender } = userData || {};
   const stepGoal = targets?.steps || 10000;
 
   const todaySteps = getTodaySteps ? getTodaySteps() : 0;
+  const burnedCals = getBurnedCals ? getBurnedCals() : 0;
   const stepPercent = Math.min(Math.round((todaySteps / stepGoal) * 100), 100);
 
   // Prepare last 7 days for the bar chart (fill missing dates with 0)
@@ -41,7 +42,10 @@ export default function Lifestyle() {
           <h1 className="text-3xl font-extrabold text-white tracking-tighter">Account</h1>
           <p className="text-gray-400 text-sm mt-0.5">{goalLabel} · {weight || '--'}kg</p>
         </div>
-        <button className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-white transition-all hover:scale-105">
+        <button 
+          onClick={() => navigate('/settings')}
+          className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-white transition-all hover:scale-105"
+        >
           <Settings size={22} />
         </button>
       </div>
@@ -184,7 +188,7 @@ export default function Lifestyle() {
       {/* Quick Links Grid */}
       <div className="grid grid-cols-2 gap-4">
         <LifestyleCard title="Sleep" value="7h 20m" icon={Moon} color="text-indigo-400" subtitle="Optimal" />
-        <LifestyleCard title="Heart Rate" value="62 bpm" icon={HeartPulse} color="text-rose-400" subtitle="Resting HR" />
+        <LifestyleCard title="Burned" value={burnedCals.toFixed(0)} icon={Flame} color="text-orange-400" subtitle="Active Kcal" />
         <LifestyleCard title="Water" value="2.1L" icon={Droplets} color="text-blue-400" subtitle={`Goal: ${targets?.water || 3}L`} />
         <LifestyleCard title="Workouts" value="4 Days" icon={Activity} color="text-orange-400" subtitle="This week" />
         <LifestyleCard

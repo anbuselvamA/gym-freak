@@ -12,6 +12,7 @@ import WeightTracker from './pages/WeightTracker';
 import Onboarding from './pages/Onboarding';
 import MealDetail from './pages/MealDetail';
 import FoodLogger from './pages/FoodLogger';
+import Settings from './pages/Settings';
 import { UserProvider, useUser } from './context/UserContext';
 import { useMealNotifications } from './hooks/useMealNotifications';
 import { MEAL_PLANS } from './pages/FoodTracking';
@@ -51,6 +52,7 @@ const AnimatedRoutes = () => {
         <Route path="/coach" element={<Coach />} />
         <Route path="/lifestyle" element={<Lifestyle />} />
         <Route path="/weight" element={<WeightTracker />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </AnimatePresence>
   );
