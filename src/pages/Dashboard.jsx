@@ -18,6 +18,23 @@ export default function Dashboard() {
   // Real consumed from daily food log (resets each day)
   const consumedCals = foodLog?.totalCals || 0;
   
+  let currentProtein = 0;
+  let currentCarbs = 0;
+  let currentFats = 0;
+
+  if (foodLog?.meals) {
+    foodLog.meals.forEach(meal => {
+      if (meal.foodItems) {
+        meal.foodItems.forEach(item => {
+          currentProtein += (Number(item.protein) || 0);
+          currentCarbs += (Number(item.carbs) || 0);
+          currentFats += (Number(item.fats) || 0);
+        });
+      }
+    });
+  }
+
+  
   const calorieData = [
     { name: 'Consumed', value: consumedCals },
     { name: 'Remaining', value: Math.max(0, targets.calories - consumedCals) },
@@ -95,9 +112,9 @@ export default function Dashboard() {
       <section className="glass-card p-8 mb-8">
         <h2 className="text-gray-400 text-sm font-semibold mb-6 uppercase tracking-wider">Macros</h2>
         <div className="space-y-4">
-          <MacroBar label="Protein" current={120} max={targets.protein} color="bg-[#FFB800]" />
-          <MacroBar label="Carbs" current={160} max={targets.carbs} color="bg-blue-500" />
-          <MacroBar label="Fats" current={45} max={targets.fats} color="bg-yellow-500" />
+          <MacroBar label="Protein" current={Math.round(currentProtein)} max={targets.protein} color="bg-[#FFB800]" />
+          <MacroBar label="Carbs" current={Math.round(currentCarbs)} max={targets.carbs} color="bg-blue-500" />
+          <MacroBar label="Fats" current={Math.round(currentFats)} max={targets.fats} color="bg-yellow-500" />
         </div>
       </section>
 
