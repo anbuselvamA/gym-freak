@@ -8,7 +8,10 @@ export default function Settings() {
   const navigate = useNavigate();
   const { userData, resetData } = useUser();
   const [notifications, setNotifications] = useState(true);
-  const [activeView, setActiveView] = useState('main'); // 'main' | 'profile' | 'privacy' | 'help'
+  const [activeView, setActiveView] = useState('main'); // 'main' | 'profile' | 'privacy' | 'help' | 'theme'
+  const [shareData, setShareData] = useState(false);
+  const [biometric, setBiometric] = useState(false);
+  const [themeSetting, setThemeSetting] = useState('dark');
 
   const handleReset = () => {
     if (window.confirm("Are you sure you want to reset all data? This cannot be undone.")) {
@@ -66,7 +69,7 @@ export default function Settings() {
                 />
               </div>
             </div>
-            <SettingItem icon={Moon} label="Dark Mode" value="Always On" />
+            <SettingItem icon={Moon} label="App Theme" value={themeSetting === 'dark' ? "Dark Mode" : themeSetting === 'light' ? "Light Mode" : "System Default"} onClick={() => setActiveView('theme')} />
           </div>
         </section>
 
@@ -161,9 +164,25 @@ export default function Settings() {
           Your data is securely stored locally on your device. We do not sell your personal information. Nexus AI processes your food images using Google Gemini directly from your device, ensuring maximum privacy.
         </p>
       </div>
-      <div className="glass-card p-4 rounded-2xl border border-white/5 hover:bg-white/5 cursor-pointer flex justify-between items-center transition-colors">
-         <span className="text-white font-medium text-sm">Manage Data Sharing</span>
-         <ChevronRight size={16} className="text-gray-500" />
+      <div className="glass-card rounded-2xl overflow-hidden divide-y divide-white/5 border border-white/5">
+        <div className="flex items-center justify-between p-4 hover:bg-white/5 transition-colors cursor-pointer">
+          <span className="text-white font-medium text-sm">Share Analytics Data</span>
+          <div 
+            onClick={() => setShareData(!shareData)}
+            className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-colors ${shareData ? 'bg-neon' : 'bg-zinc-700'}`}
+          >
+            <motion.div className="w-4 h-4 bg-white rounded-full shadow-md" animate={{ x: shareData ? 24 : 0 }} />
+          </div>
+        </div>
+        <div className="flex items-center justify-between p-4 hover:bg-white/5 transition-colors cursor-pointer">
+          <span className="text-white font-medium text-sm">Face ID / Biometric Login</span>
+          <div 
+            onClick={() => setBiometric(!biometric)}
+            className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-colors ${biometric ? 'bg-neon' : 'bg-zinc-700'}`}
+          >
+            <motion.div className="w-4 h-4 bg-white rounded-full shadow-md" animate={{ x: biometric ? 24 : 0 }} />
+          </div>
+        </div>
       </div>
       <div className="glass-card p-4 rounded-2xl border border-white/5 hover:bg-white/5 cursor-pointer flex justify-between items-center transition-colors">
          <span className="text-white font-medium text-sm">Terms of Service</span>
@@ -188,7 +207,12 @@ export default function Settings() {
          <p className="text-sm text-gray-400 leading-relaxed max-w-[250px] mx-auto">
            Our AI coach is available 24/7 in the Coach tab for immediate fitness and diet queries. For technical support, contact our team.
          </p>
-         <button className="mt-8 px-6 py-4 bg-white/10 text-white font-bold rounded-xl w-full hover:bg-white/20 transition-colors">Contact Support Team</button>
+         <button 
+           onClick={() => alert("Support ticket opened! Our team will email you shortly.")}
+           className="mt-8 px-6 py-4 bg-white/10 text-white font-bold rounded-xl w-full hover:bg-white/20 transition-colors"
+         >
+           Contact Support Team
+         </button>
       </div>
       
       <div className="glass-card p-5 rounded-2xl border border-white/5">
@@ -203,6 +227,49 @@ export default function Settings() {
             <p className="text-xs text-gray-400">Burned calories are calculated using your phone's motion sensor tracking your steps and live cardio sessions.</p>
           </div>
         </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderTheme = () => (
+    <motion.div
+      key="theme"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20 }}
+      transition={{ duration: 0.2 }}
+      className="space-y-4"
+    >
+      <div className="glass-card p-6 rounded-2xl border border-white/5 text-center mb-6">
+        <Moon size={40} className="text-neon mx-auto mb-4" />
+        <h3 className="text-white font-bold text-xl mb-2">App Theme</h3>
+        <p className="text-sm text-gray-400">Nexus UI is strictly optimized for Dark Mode to save battery and reduce eye strain.</p>
+      </div>
+
+      <div className="glass-card rounded-2xl overflow-hidden divide-y divide-white/5 border border-white/5">
+        {[
+          { id: 'dark', label: 'Dark Mode (Recommended)' },
+          { id: 'light', label: 'Light Mode' },
+          { id: 'system', label: 'System Default' }
+        ].map((theme) => (
+          <div 
+            key={theme.id}
+            onClick={() => {
+              if (theme.id === 'light') {
+                alert("Nexus UI is an exclusive dark-themed app. Light mode is disabled for maximum aesthetics and battery saving!");
+                setThemeSetting('dark');
+              } else {
+                setThemeSetting(theme.id);
+              }
+            }}
+            className="flex items-center justify-between p-5 hover:bg-white/5 transition-colors cursor-pointer"
+          >
+            <span className="text-white font-medium text-sm">{theme.label}</span>
+            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${themeSetting === theme.id ? 'border-neon' : 'border-gray-500'}`}>
+              {themeSetting === theme.id && <div className="w-2.5 h-2.5 rounded-full bg-neon" />}
+            </div>
+          </div>
+        ))}
       </div>
     </motion.div>
   );
@@ -225,7 +292,8 @@ export default function Settings() {
         <h1 className="text-2xl font-extrabold text-white tracking-tighter w-full text-center">
           {activeView === 'main' ? 'Settings' : 
            activeView === 'profile' ? 'Edit Profile' : 
-           activeView === 'privacy' ? 'Privacy' : 'Help & Support'}
+           activeView === 'privacy' ? 'Privacy' : 
+           activeView === 'theme' ? 'App Theme' : 'Help & Support'}
         </h1>
       </div>
 
@@ -234,6 +302,7 @@ export default function Settings() {
         {activeView === 'profile' && renderProfile()}
         {activeView === 'privacy' && renderPrivacy()}
         {activeView === 'help' && renderHelp()}
+        {activeView === 'theme' && renderTheme()}
       </AnimatePresence>
     </motion.div>
   );
