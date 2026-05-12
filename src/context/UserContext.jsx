@@ -175,7 +175,11 @@ export const UserProvider = ({ children }) => {
 
   const resetData = () => {
     setUserData(null);
+    setStepsHistory([]);
+    setFoodLog({ date: new Date().toISOString().split('T')[0], meals: [], totalCals: 0 });
     localStorage.removeItem('nexus_user_data');
+    localStorage.removeItem('nexus_steps_history');
+    localStorage.removeItem('nexus_food_log');
   };
 
   const updateUserProfile = (newData) => {
