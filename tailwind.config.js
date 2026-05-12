@@ -10,7 +10,7 @@ export default {
         background: '#0a0a0a',
         surface: '#121212',
         surfaceHighlight: '#1e1e1e',
-        neon: '#39ff14',
+        neon: '#FFB800',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

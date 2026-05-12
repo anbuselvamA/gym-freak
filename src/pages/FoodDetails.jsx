@@ -39,7 +39,7 @@ export default function FoodDetails() {
 
         {/* Macros Breakdown */}
         <div className="grid grid-cols-3 gap-3 mb-8">
-          <MacroCard title="Protein" value="42g" color="border-[#39ff14]" />
+          <MacroCard title="Protein" value="42g" color="border-[#FFB800]" />
           <MacroCard title="Carbs" value="45g" color="border-blue-500" />
           <MacroCard title="Fats" value="22g" color="border-yellow-500" />
         </div>

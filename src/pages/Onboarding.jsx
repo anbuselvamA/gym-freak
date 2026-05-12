@@ -170,7 +170,7 @@ export default function Onboarding() {
       <button 
         onClick={handleNext}
         disabled={step === 1 && !formData.name}
-        className="w-full py-5 rounded-[1.5rem] bg-neon text-black font-extrabold text-lg flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(57,255,20,0.3)] disabled:opacity-50 disabled:shadow-none mt-8"
+        className="w-full py-5 rounded-[1.5rem] bg-neon text-black font-extrabold text-lg flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(255, 184, 0,0.3)] disabled:opacity-50 disabled:shadow-none mt-8"
       >
         {step === 3 ? "Generate AI Plan" : "Continue"}
         {step < 3 && <ArrowRight size={20} className="text-black" />}
@@ -183,7 +183,7 @@ function GoalCard({ icon: Icon, title, desc, selected, onClick }) {
   return (
     <div 
       onClick={onClick}
-      className={`glass-card p-5 flex items-center gap-4 cursor-pointer transition-all ${selected ? 'border-neon bg-neon/5 shadow-[0_0_15px_rgba(57,255,20,0.1)]' : 'border-white/5 hover:bg-white/5'}`}
+      className={`glass-card p-5 flex items-center gap-4 cursor-pointer transition-all ${selected ? 'border-neon bg-neon/5 shadow-[0_0_15px_rgba(255, 184, 0,0.1)]' : 'border-white/5 hover:bg-white/5'}`}
     >
       <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${selected ? 'bg-neon/20 text-neon' : 'bg-zinc-800 text-gray-400'}`}>
         <Icon size={24} />

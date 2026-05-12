@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { Bell, User as UserIcon } from 'lucide-react';
 import { useUser } from '../context/UserContext';
 
-const COLORS = ['#39ff14', '#1e1e1e'];
+const COLORS = ['#FFB800', '#1e1e1e'];
 
 export default function Dashboard() {
   const { userData, foodLog, getTodaySteps } = useUser();
@@ -86,7 +86,7 @@ export default function Dashboard() {
       <section className="glass-card p-8 mb-8">
         <h2 className="text-gray-400 text-sm font-semibold mb-6 uppercase tracking-wider">Macros</h2>
         <div className="space-y-4">
-          <MacroBar label="Protein" current={120} max={targets.protein} color="bg-[#39ff14]" />
+          <MacroBar label="Protein" current={120} max={targets.protein} color="bg-[#FFB800]" />
           <MacroBar label="Carbs" current={160} max={targets.carbs} color="bg-blue-500" />
           <MacroBar label="Fats" current={45} max={targets.fats} color="bg-yellow-500" />
         </div>

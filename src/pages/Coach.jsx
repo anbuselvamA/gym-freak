@@ -142,7 +142,7 @@ export default function Coach() {
       <div className="px-8 pb-5 border-b border-white/5 flex justify-between items-center sticky top-0 z-10 bg-black/80 backdrop-blur-md">
         <div>
           <h1 className="text-3xl font-extrabold text-white flex items-center gap-3 tracking-tighter">
-            AI Coach <Sparkles size={24} className="text-neon drop-shadow-[0_0_8px_rgba(57,255,20,0.8)]" />
+            AI Coach <Sparkles size={24} className="text-neon drop-shadow-[0_0_8px_rgba(255, 184, 0,0.8)]" />
           </h1>
           <div className="flex items-center gap-2 mt-1">
             <div className="w-2 h-2 rounded-full bg-neon animate-pulse" />
@@ -174,7 +174,7 @@ export default function Coach() {
               <div
                 className={`max-w-[82%] rounded-[1.4rem] px-5 py-3.5 text-sm leading-relaxed ${
                   msg.role === 'user'
-                    ? 'bg-neon text-black rounded-tr-sm shadow-[0_0_20px_rgba(57,255,20,0.25)] font-semibold'
+                    ? 'bg-neon text-black rounded-tr-sm shadow-[0_0_20px_rgba(255, 184, 0,0.25)] font-semibold'
                     : 'glass-card rounded-tl-sm text-gray-200 border-l-2 border-l-neon/60'
                 }`}
               >
@@ -235,7 +235,7 @@ export default function Coach() {
           <button
             type="submit"
             disabled={!input.trim() || loading}
-            className="w-14 h-14 bg-neon rounded-2xl flex items-center justify-center text-black disabled:opacity-40 hover:bg-[#2fe512] transition-all shadow-[0_0_16px_rgba(57,255,20,0.4)] hover:scale-105"
+            className="w-14 h-14 bg-neon rounded-2xl flex items-center justify-center text-black disabled:opacity-40 hover:bg-[#2fe512] transition-all shadow-[0_0_16px_rgba(255, 184, 0,0.4)] hover:scale-105"
           >
             {loading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} className="-ml-0.5" />}
           </button>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Camera, ChevronRight, Sparkles, Beef, Wheat, Droplets, UtensilsCrossed, Plus, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import AICameraScanner from '../components/AICameraScanner';
 
 // Helper
 const sumCals = (items) => items.reduce((s, i) => s + i.cals, 0);
@@ -137,6 +138,7 @@ export default function FoodTracking() {
 
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [expandedMealIdx, setExpandedMealIdx] = useState(null);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const plan = MEAL_PLANS[goal] || MEAL_PLANS.maintain;
   const goalLabel = goal === 'lose' ? 'Fat Loss' : goal === 'gain' ? 'Muscle Gain' : 'Maintenance';
@@ -169,7 +171,10 @@ export default function FoodTracking() {
           <Search size={20} className="text-gray-400" />
           <input type="text" placeholder="Search food..." className="bg-transparent border-none outline-none text-white w-full py-3 px-3 text-sm placeholder-gray-500" />
         </div>
-        <button className="w-12 h-12 rounded-2xl bg-neon flex items-center justify-center neon-glow shadow-neon hover:bg-[#2fe512] transition-colors">
+        <button 
+          onClick={() => setIsScannerOpen(true)}
+          className="w-12 h-12 rounded-2xl bg-neon flex items-center justify-center neon-glow shadow-neon hover:bg-[#2fe512] transition-colors"
+        >
           <Camera size={24} className="text-black" />
         </button>
       </div>
@@ -185,7 +190,7 @@ export default function FoodTracking() {
             <p className="text-xs text-gray-500 mt-1">No meals logged yet today</p>
           )}
         </div>
-        <div className="w-14 h-14 rounded-full border-[3px] border-zinc-800 border-t-neon flex items-center justify-center transform rotate-45 shadow-[0_0_15px_rgba(57,255,20,0.3)]">
+        <div className="w-14 h-14 rounded-full border-[3px] border-zinc-800 border-t-neon flex items-center justify-center transform rotate-45 shadow-[0_0_15px_rgba(255, 184, 0,0.3)]">
           <span className="text-white text-xs font-bold -rotate-45 block">{percentage}%</span>
         </div>
       </section>
@@ -326,7 +331,7 @@ export default function FoodTracking() {
                       onClick={() => setExpandedMealIdx(isExpanded ? null : idx)}
                       className="w-full p-4 flex items-center gap-3 hover:bg-white/5 transition-colors"
                     >
-                      <div className="w-3 h-3 rounded-full bg-neon shadow-[0_0_10px_rgba(57,255,20,0.8)] shrink-0" />
+                      <div className="w-3 h-3 rounded-full bg-neon shadow-[0_0_10px_rgba(255, 184, 0,0.8)] shrink-0" />
                       <div className="flex-1 text-left">
                         <div className="flex justify-between items-center">
                           <span className="text-white font-bold text-base">{meal.title}</span>
@@ -388,6 +393,20 @@ export default function FoodTracking() {
           )}
         </AnimatePresence>
       </section>
+
+      {/* AI Scanner Overlay */}
+      <AnimatePresence>
+        {isScannerOpen && (
+          <AICameraScanner 
+            onClose={() => setIsScannerOpen(false)} 
+            onLogMeal={(meal) => {
+              handleLogMeal(meal);
+              // Small delay to ensure modal close animation is smooth
+              setTimeout(() => setIsScannerOpen(false), 300);
+            }} 
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

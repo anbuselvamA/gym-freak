@@ -233,7 +233,7 @@ export default function FoodLogger() {
 
               <button
                 onClick={handleConfirm}
-                className="w-full py-3.5 rounded-2xl bg-neon text-black font-extrabold text-base flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(57,255,20,0.3)]"
+                className="w-full py-3.5 rounded-2xl bg-neon text-black font-extrabold text-base flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(255, 184, 0,0.3)]"
               >
                 <Check size={20} />
                 Log {mealType} · {totalCals} kcal

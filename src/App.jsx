@@ -64,7 +64,7 @@ const AppContent = () => {
   useMealNotifications(userData?.name, plan);
 
   return (
-    <div className="w-full h-[100dvh] sm:h-[850px] sm:max-h-[90dvh] sm:w-[400px] sm:rounded-[3.5rem] sm:border-[10px] sm:border-zinc-900 bg-[#050505]/90 backdrop-blur-3xl relative overflow-hidden shadow-[0_0_80px_rgba(57,255,20,0.05)] z-10 flex flex-col">
+    <div className="w-full h-[100dvh] sm:h-[850px] sm:max-h-[90dvh] sm:w-[400px] sm:rounded-[3.5rem] sm:border-[10px] sm:border-zinc-900 bg-[#050505]/90 backdrop-blur-3xl relative overflow-hidden shadow-[0_0_80px_rgba(255, 184, 0,0.05)] z-10 flex flex-col">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none mix-blend-overlay"></div>
       <Router>
         <ScrollToTop />

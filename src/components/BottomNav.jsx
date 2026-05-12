@@ -28,12 +28,12 @@ export default function BottomNav() {
             {({ isActive }) => (
               <>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                  <item.icon size={26} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'drop-shadow-[0_0_12px_rgba(57,255,20,0.8)]' : ''} />
+                  <item.icon size={26} strokeWidth={isActive ? 2.5 : 2} className={isActive ? 'drop-shadow-[0_0_12px_rgba(255, 184, 0,0.8)]' : ''} />
                 </motion.div>
                 {isActive && (
                   <motion.div
                     layoutId="navIndicator"
-                    className="absolute -bottom-3 w-1.5 h-1.5 bg-neon rounded-full shadow-[0_0_10px_rgba(57,255,20,1)]"
+                    className="absolute -bottom-3 w-1.5 h-1.5 bg-neon rounded-full shadow-[0_0_10px_rgba(255, 184, 0,1)]"
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   />
                 )}

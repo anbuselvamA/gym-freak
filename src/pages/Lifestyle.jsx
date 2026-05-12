@@ -86,7 +86,7 @@ export default function Lifestyle() {
             initial={{ width: 0 }}
             animate={{ width: `${stepPercent}%` }}
             transition={{ duration: 1, ease: 'easeOut' }}
-            className="h-full bg-neon rounded-full shadow-[0_0_10px_rgba(57,255,20,0.5)]"
+            className="h-full bg-neon rounded-full shadow-[0_0_10px_rgba(255, 184, 0,0.5)]"
           />
         </div>
         <p className="text-xs text-gray-500">
@@ -119,7 +119,7 @@ export default function Lifestyle() {
               {last7.map((entry) => (
                 <Cell
                   key={entry.dateKey}
-                  fill={entry.dateKey === todayKey ? '#39ff14' : '#27272a'}
+                  fill={entry.dateKey === todayKey ? '#FFB800' : '#27272a'}
                 />
               ))}
             </Bar>
@@ -169,7 +169,7 @@ export default function Lifestyle() {
                     </div>
                     <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full ${pct >= 100 ? 'bg-neon shadow-[0_0_6px_rgba(57,255,20,0.6)]' : 'bg-zinc-600'}`}
+                        className={`h-full rounded-full ${pct >= 100 ? 'bg-neon shadow-[0_0_6px_rgba(255, 184, 0,0.6)]' : 'bg-zinc-600'}`}
                         style={{ width: `${pct}%` }}
                       />
                     </div>

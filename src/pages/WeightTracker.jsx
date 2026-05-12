@@ -74,15 +74,15 @@ export default function WeightTracker() {
               <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 1', 'dataMax + 1']} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#121212', border: '1px solid #27272a', borderRadius: '12px', color: '#fff' }}
-                itemStyle={{ color: '#39ff14', fontWeight: 'bold' }}
+                itemStyle={{ color: '#FFB800', fontWeight: 'bold' }}
               />
               <Line 
                 type="monotone" 
                 dataKey="weight" 
-                stroke="#39ff14" 
+                stroke="#FFB800" 
                 strokeWidth={3} 
-                dot={{ fill: '#0a0a0a', stroke: '#39ff14', strokeWidth: 2, r: 4 }} 
-                activeDot={{ r: 6, fill: '#39ff14', stroke: '#0a0a0a', strokeWidth: 2 }}
+                dot={{ fill: '#0a0a0a', stroke: '#FFB800', strokeWidth: 2, r: 4 }} 
+                activeDot={{ r: 6, fill: '#FFB800', stroke: '#0a0a0a', strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -91,7 +91,7 @@ export default function WeightTracker() {
 
       {/* Log Weight Button */}
       <button className="w-full py-5 rounded-[1.5rem] bg-zinc-900 border border-white/10 text-white font-bold text-lg flex items-center justify-center gap-3 hover:bg-zinc-800 transition-colors shadow-lg group">
-        <Target size={24} className="text-neon group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(57,255,20,0.8)]" />
+        <Target size={24} className="text-neon group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(255, 184, 0,0.8)]" />
         Log Today's Weight
       </button>
     </motion.div>
