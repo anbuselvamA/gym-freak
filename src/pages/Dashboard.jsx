@@ -32,8 +32,12 @@ export default function Dashboard() {
       {/* Header */}
       <header className="flex justify-between items-center mb-10">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-zinc-800 flex items-center justify-center border-[3px] border-neon neon-glow shadow-neon">
-            <UserIcon className="text-neon" size={28} />
+          <div className="w-14 h-14 rounded-full bg-zinc-800 flex items-center justify-center border-[3px] border-neon neon-glow shadow-neon overflow-hidden">
+            {userData?.profileImage ? (
+              <img src={userData.profileImage} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              <UserIcon className="text-neon" size={28} />
+            )}
           </div>
           <div>
             <p className="text-gray-400 text-sm font-medium tracking-wide">Good Morning,</p>

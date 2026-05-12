@@ -53,8 +53,12 @@ export default function Lifestyle() {
       {/* Profile Card */}
       <section className="glass-card layered-card p-6 mb-6 flex items-center gap-5 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-24 h-24 bg-neon/10 rounded-bl-full blur-3xl pointer-events-none"></div>
-        <div className="w-16 h-16 rounded-full bg-zinc-800 border-[3px] border-neon flex items-center justify-center neon-glow">
-          <User size={30} className="text-neon" />
+        <div className="w-16 h-16 rounded-full bg-zinc-800 border-[3px] border-neon flex items-center justify-center neon-glow overflow-hidden">
+          {userData?.profileImage ? (
+            <img src={userData.profileImage} alt="Profile" className="w-full h-full object-cover" />
+          ) : (
+            <User size={30} className="text-neon" />
+          )}
         </div>
         <div>
           <h2 className="text-xl font-extrabold text-white tracking-tight">{name || 'User'}</h2>
