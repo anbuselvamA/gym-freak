@@ -178,8 +178,12 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem('nexus_user_data');
   };
 
+  const updateUserProfile = (newData) => {
+    setUserData((prev) => ({ ...prev, ...newData }));
+  };
+
   return (
-    <UserContext.Provider value={{ userData, saveOnboardingData, resetData, saveSteps, getTodaySteps, getBurnedCals, stepsHistory, foodLog, logMeal }}>
+    <UserContext.Provider value={{ userData, saveOnboardingData, resetData, updateUserProfile, saveSteps, getTodaySteps, getBurnedCals, stepsHistory, foodLog, logMeal }}>
       {children}
     </UserContext.Provider>
   );

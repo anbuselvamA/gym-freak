@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Bell, Moon, User, Lock, Trash2, ChevronRight, HelpCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -6,12 +6,23 @@ import { useUser } from '../context/UserContext';
 
 export default function Settings() {
   const navigate = useNavigate();
-  const { userData, resetData } = useUser();
+  const { userData, resetData, updateUserProfile } = useUser();
   const [notifications, setNotifications] = useState(true);
   const [activeView, setActiveView] = useState('main'); // 'main' | 'profile' | 'privacy' | 'help' | 'theme'
   const [shareData, setShareData] = useState(false);
-  const [biometric, setBiometric] = useState(false);
   const [themeSetting, setThemeSetting] = useState('dark');
+  const fileInputRef = useRef(null);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        updateUserProfile({ profileImage: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleReset = () => {
     if (window.confirm("Are you sure you want to reset all data? This cannot be undone.")) {
@@ -104,14 +115,30 @@ export default function Settings() {
       className="space-y-4"
     >
       <div className="glass-card p-6 rounded-2xl flex flex-col items-center gap-4 text-center border border-white/5">
-         <div className="w-20 h-20 rounded-full bg-zinc-800 border-4 border-neon flex items-center justify-center neon-glow shadow-neon">
-           <User size={40} className="text-neon" />
+         <div className="w-20 h-20 rounded-full bg-zinc-800 border-4 border-neon flex items-center justify-center neon-glow shadow-neon overflow-hidden">
+           {userData?.profileImage ? (
+             <img src={userData.profileImage} alt="Profile" className="w-full h-full object-cover" />
+           ) : (
+             <User size={40} className="text-neon" />
+           )}
          </div>
          <div>
            <h3 className="text-xl font-extrabold text-white">{userData?.name || "Guest"}</h3>
            <p className="text-gray-400 text-sm mt-0.5">{userData?.gender === 'male' ? 'Male' : 'Female'} • {userData?.goal === 'lose' ? 'Fat Loss' : 'Muscle Gain'}</p>
          </div>
-         <button className="px-6 py-2 bg-white/10 rounded-xl text-white font-bold hover:bg-white/20 transition-colors text-sm mt-2">Change Photo</button>
+         <input 
+           type="file" 
+           ref={fileInputRef} 
+           onChange={handleImageUpload} 
+           accept="image/*" 
+           className="hidden" 
+         />
+         <button 
+           onClick={() => fileInputRef.current?.click()}
+           className="px-6 py-2 bg-white/10 rounded-xl text-white font-bold hover:bg-white/20 transition-colors text-sm mt-2"
+         >
+           Change Photo
+         </button>
       </div>
 
       <div className="glass-card p-5 rounded-2xl space-y-4 border border-white/5">
@@ -172,15 +199,6 @@ export default function Settings() {
             className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-colors ${shareData ? 'bg-neon' : 'bg-zinc-700'}`}
           >
             <motion.div className="w-4 h-4 bg-white rounded-full shadow-md" animate={{ x: shareData ? 24 : 0 }} />
-          </div>
-        </div>
-        <div className="flex items-center justify-between p-4 hover:bg-white/5 transition-colors cursor-pointer">
-          <span className="text-white font-medium text-sm">Face ID / Biometric Login</span>
-          <div 
-            onClick={() => setBiometric(!biometric)}
-            className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-colors ${biometric ? 'bg-neon' : 'bg-zinc-700'}`}
-          >
-            <motion.div className="w-4 h-4 bg-white rounded-full shadow-md" animate={{ x: biometric ? 24 : 0 }} />
           </div>
         </div>
       </div>
@@ -249,7 +267,6 @@ export default function Settings() {
       <div className="glass-card rounded-2xl overflow-hidden divide-y divide-white/5 border border-white/5">
         {[
           { id: 'dark', label: 'Dark Mode (Recommended)' },
-          { id: 'light', label: 'Light Mode' },
           { id: 'system', label: 'System Default' }
         ].map((theme) => (
           <div 
