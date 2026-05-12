@@ -216,59 +216,7 @@ export default function FoodTracking() {
         <MacroChip icon={Droplets} label="Fats" current={Math.round(currentFats)} target={targetFats} color="text-yellow-400" />
       </div>
 
-      {/* AI Meal Plan — with Quick Log buttons */}
-      <section className={`glass-card p-5 mb-8 border ${plan.borderColor} ${plan.bgColor} relative overflow-hidden`}>
-        <div className="absolute top-0 right-0 w-20 h-20 bg-neon/10 rounded-bl-full blur-2xl pointer-events-none"></div>
-        <div className="flex items-center gap-2 mb-1 relative z-10">
-          <Sparkles size={18} className={plan.color} />
-          <h2 className={`font-bold text-base tracking-tight ${plan.color}`}>Nexus AI · {goalLabel} Plan</h2>
-        </div>
-        <p className="text-gray-400 text-xs leading-relaxed mb-4 relative z-10">{plan.tip}</p>
 
-        <div className="space-y-3 relative z-10">
-          {plan.meals.map((meal, idx) => {
-            const logged = isLoggedToday(meal.title);
-            return (
-              <motion.div
-                key={meal.title}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.08 }}
-                className={`flex items-center gap-3 rounded-xl p-2.5 -mx-2 transition-colors ${logged ? 'bg-white/5' : 'hover:bg-white/5 cursor-pointer'}`}
-              >
-                <div className="flex flex-col items-center min-w-[44px]">
-                  <div className={`w-2 h-2 rounded-full ${logged ? 'bg-neon shadow-neon' : plan.dotColor} opacity-80`} />
-                  <span className="text-[9px] text-gray-500 font-bold mt-1 text-center leading-tight">{meal.time}</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-center">
-                    <span className={`font-bold text-sm ${logged ? 'text-gray-400 line-through' : 'text-white'}`}>{meal.title}</span>
-                    <span className={`font-bold text-xs ml-2 ${plan.color}`}>{meal.cals} kcal</span>
-                  </div>
-                  <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{meal.items}</p>
-                </div>
-                <button
-                  onClick={() => handleLogMeal(meal)}
-                  disabled={logged}
-                  className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                    logged
-                      ? 'bg-neon/20 text-neon cursor-default'
-                      : 'bg-zinc-800 text-gray-400 hover:bg-neon hover:text-black'
-                  }`}
-                  title={logged ? 'Logged!' : 'Log this meal'}
-                >
-                  {logged ? <CheckCircle size={16} /> : <Plus size={16} />}
-                </button>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        <div className={`mt-4 pt-3 border-t ${plan.borderColor} flex justify-between text-xs font-bold`}>
-          <span className="text-gray-400">Daily Target</span>
-          <span className={plan.color}>{calorieTarget} kcal</span>
-        </div>
-      </section>
 
       {/* Today's Food Log */}
       <section>
@@ -406,6 +354,11 @@ export default function FoodTracking() {
             </div>
           )}
         </AnimatePresence>
+
+        <div className={`mt-6 pt-4 border-t border-white/10 flex justify-between text-sm font-bold`}>
+          <span className="text-gray-400">Daily Target to Eat:</span>
+          <span className="text-neon">{calorieTarget} kcal</span>
+        </div>
       </section>
 
       {/* AI Scanner Overlay */}
