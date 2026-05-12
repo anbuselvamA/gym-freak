@@ -204,6 +204,58 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
           </div>
         )}
 
+        {/* Weight Input Modal Overlay */}
+        <AnimatePresence>
+        {status === 'weight_input' && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-30 flex items-center justify-center bg-black/80 backdrop-blur-md p-6"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              className="bg-zinc-900 border border-white/10 rounded-3xl p-6 w-full max-w-sm shadow-2xl"
+            >
+              <h3 className="text-white font-black text-2xl mb-2 text-center">How much is this?</h3>
+              <p className="text-gray-400 text-sm mb-6 text-center leading-relaxed">Telling Nexus AI the weight or quantity makes the calorie tracking 100% accurate.</p>
+              
+              <input 
+                type="text"
+                autoFocus
+                value={foodWeight}
+                onChange={(e) => setFoodWeight(e.target.value)}
+                placeholder="e.g., 200g, 1 bowl, 2 idlis..."
+                className="w-full bg-black border border-white/10 rounded-2xl px-5 py-4 text-white text-center placeholder-gray-600 mb-6 focus:outline-none focus:border-neon focus:ring-1 focus:ring-neon transition-all text-lg font-bold shadow-inner"
+              />
+              
+              <div className="flex gap-3 w-full">
+                 <button 
+                  onClick={() => {
+                     setStatus('scanning');
+                     analyzeImageWithAI(capturedImage, "");
+                  }}
+                  className="flex-1 py-4 rounded-xl bg-white/5 text-gray-300 font-bold hover:bg-white/10 transition-colors"
+                >
+                  Skip
+                </button>
+                <button 
+                  onClick={() => {
+                     setStatus('scanning');
+                     analyzeImageWithAI(capturedImage, foodWeight);
+                  }}
+                  disabled={!foodWeight.trim()}
+                  className="flex-1 py-4 rounded-xl bg-neon text-black font-black hover:bg-[#2fe512] transition-colors disabled:opacity-50 disabled:hover:bg-neon shadow-[0_0_15px_rgba(57,255,20,0.2)]"
+                >
+                  Analyze
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+        </AnimatePresence>
+
         {/* Camera Target Brackets */}
         {status === 'camera' && (
           <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
@@ -218,61 +270,34 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
       </div>
 
       {/* Bottom Controls / Results Area */}
-      <div className="bg-black rounded-t-[2.5rem] p-8 -mt-6 z-20 relative min-h-[260px] shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
-        
-        {status === 'camera' && (
-          <div className="flex flex-col items-center justify-center h-full pt-4">
-            <p className="text-gray-400 text-sm mb-6 font-medium">Position food in the frame</p>
-            <button 
-              onClick={captureImage}
-              className="w-20 h-20 rounded-full border-4 border-neon p-1 relative group flex items-center justify-center"
-            >
-              <div className="w-full h-full rounded-full bg-white group-active:scale-90 transition-transform"></div>
-            </button>
-          </div>
-        )}
-
-        {status === 'weight_input' && (
-          <div className="flex flex-col items-center justify-center h-full pt-2">
-            <h3 className="text-white font-bold text-lg mb-2">How much is this?</h3>
-            <p className="text-gray-400 text-xs mb-4 text-center leading-relaxed">Telling Nexus AI the weight or quantity makes the calorie tracking 100% accurate.</p>
-            <input 
-              type="text"
-              value={foodWeight}
-              onChange={(e) => setFoodWeight(e.target.value)}
-              placeholder="e.g., 200g, 1 bowl, 2 idlis..."
-              className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 mb-4 focus:outline-none focus:border-neon transition-colors text-sm"
-            />
-            <div className="flex gap-3 w-full">
-               <button 
-                onClick={() => {
-                   setStatus('scanning');
-                   analyzeImageWithAI(capturedImage, "");
-                }}
-                className="flex-1 py-3 rounded-xl bg-white/5 text-gray-300 font-semibold hover:bg-white/10 transition-colors"
-              >
-                Skip
-              </button>
+      <AnimatePresence>
+      {status !== 'weight_input' && (
+        <motion.div 
+          key="bottom-controls"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          className="bg-black rounded-t-[2.5rem] p-8 -mt-6 z-20 relative min-h-[260px] shadow-[0_-10px_40px_rgba(0,0,0,0.8)]"
+        >
+          
+          {status === 'camera' && (
+            <div className="flex flex-col items-center justify-center h-full pt-4">
+              <p className="text-gray-400 text-sm mb-6 font-medium">Position food in the frame</p>
               <button 
-                onClick={() => {
-                   setStatus('scanning');
-                   analyzeImageWithAI(capturedImage, foodWeight);
-                }}
-                disabled={!foodWeight.trim()}
-                className="flex-1 py-3 rounded-xl bg-neon text-black font-extrabold hover:bg-[#2fe512] transition-colors disabled:opacity-50 disabled:hover:bg-neon"
+                onClick={captureImage}
+                className="w-20 h-20 rounded-full border-4 border-neon p-1 relative group flex items-center justify-center"
               >
-                Analyze
+                <div className="w-full h-full rounded-full bg-white group-active:scale-90 transition-transform"></div>
               </button>
             </div>
-          </div>
-        )}
+          )}
 
-        {status === 'scanning' && (
-          <div className="flex flex-col items-center justify-center h-full">
-            <div className="w-8 h-8 border-4 border-neon border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p className="text-gray-400 text-sm">Processing with Nexus AI...</p>
-          </div>
-        )}
+          {status === 'scanning' && (
+            <div className="flex flex-col items-center justify-center h-full">
+              <div className="w-8 h-8 border-4 border-neon border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-gray-400 text-sm">Processing with Nexus AI...</p>
+            </div>
+          )}
 
         {status === 'error' && (
           <div className="flex flex-col items-center justify-center h-full text-center">
@@ -368,7 +393,9 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
             )}
           </motion.div>
         )}
-      </div>
+        </motion.div>
+      )}
+      </AnimatePresence>
 
       <canvas ref={canvasRef} className="hidden" />
     </motion.div>
