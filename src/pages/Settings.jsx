@@ -143,6 +143,10 @@ export default function Settings() {
 
       <div className="glass-card p-5 rounded-2xl space-y-4 border border-white/5">
         <div>
+          <label className="text-xs text-gray-500 uppercase font-bold tracking-widest pl-2">Email Address</label>
+          <input type="email" readOnly value={userData?.email || "No email linked"} className="w-full mt-2 bg-zinc-900/50 border border-white/5 rounded-xl px-4 py-3 text-gray-500 font-bold focus:outline-none cursor-not-allowed" />
+        </div>
+        <div>
           <label className="text-xs text-gray-500 uppercase font-bold tracking-widest pl-2">Display Name</label>
           <input type="text" defaultValue={userData?.name} className="w-full mt-2 bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 text-white font-bold focus:border-neon focus:outline-none transition-colors" />
         </div>

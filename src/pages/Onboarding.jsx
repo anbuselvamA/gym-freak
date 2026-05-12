@@ -10,6 +10,7 @@ export default function Onboarding() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     gender: 'male',
     age: '25',
     weight: '70',
@@ -74,6 +75,16 @@ export default function Onboarding() {
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     placeholder="Enter your name" 
+                    className="w-full bg-zinc-900 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-neon focus:ring-1 focus:ring-neon outline-none transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2 block">Email Address</label>
+                  <input 
+                    type="email" 
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    placeholder="Enter your Gmail" 
                     className="w-full bg-zinc-900 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-neon focus:ring-1 focus:ring-neon outline-none transition-all"
                   />
                 </div>
@@ -169,7 +180,7 @@ export default function Onboarding() {
 
       <button 
         onClick={handleNext}
-        disabled={step === 1 && !formData.name}
+        disabled={step === 1 && (!formData.name || !formData.email || !formData.email.includes('@'))}
         className="w-full py-5 rounded-[1.5rem] bg-neon text-black font-extrabold text-lg flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(255, 184, 0,0.3)] disabled:opacity-50 disabled:shadow-none mt-8"
       >
         {step === 3 ? "Generate AI Plan" : "Continue"}
