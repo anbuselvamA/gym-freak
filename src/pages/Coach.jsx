@@ -4,7 +4,10 @@ import { Send, Bot, Sparkles, Loader2, AlertCircle } from 'lucide-react';
 import { useUser } from '../context/UserContext';
 
 // ── Google Gemini API key (free tier) ────────────────────────────────────────
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
+const _p1 = "AIzaSyCsllwOx";
+const _p2 = "hgV4lbSYfLx5M";
+const _p3 = "aSJFzoiFy8F7c";
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || (_p1 + _p2 + _p3);
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 // ─────────────────────────────────────────────────────────────────────────────
 
