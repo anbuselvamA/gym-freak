@@ -83,8 +83,9 @@ export default function Coach() {
     }
 
     try {
-      // Build Gemini contents array (alternating user/model)
-      const allMsgs = [...messages, userMsg];
+      // Exclude the initial welcome message from the API request to ensure it starts with a user message
+      const historyMsgs = messages.filter((m, idx) => !(idx === 0 && m.role === 'ai'));
+      const allMsgs = [...historyMsgs, userMsg];
       
       // Prepend system prompt to the first user message for stability in v1
       const contents = allMsgs.map((m, i) => {
