@@ -19,6 +19,7 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
   const [status, setStatus] = useState('camera'); // camera | scanning | result | error
   const [result, setResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [foodWeight, setFoodWeight] = useState("");
 
   // Initialize camera
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const analyzeImageWithAI = async (base64Image) => {
+  const analyzeImageWithAI = async (base64Image, weightInfo = "") => {
     try {
       if (!API_KEY) {
         throw new Error("Gemini API Key is missing. Please add VITE_GEMINI_API_KEY to your .env file.");
@@ -58,6 +59,7 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
       
       const prompt = `
         You are a highly advanced fitness and nutrition AI. Analyze this image.
+        ${weightInfo ? `The user has specified the weight/quantity of the food is: ${weightInfo}. Use this to accurately calculate the macros and calories based on this exact quantity.` : 'Estimate the portion size from the image.'}
         If the image contains food, identify it and estimate the total calories, protein (g), carbs (g), and fats (g).
         Also provide a 'rating' (Excellent, Great, Fair, or Poor) based on how good it is for fitness (muscle gain / fat loss), and a short 'comment' explaining why.
         If the image DOES NOT contain food (e.g., it's a person's face, a room, etc.), you MUST set the name to "No Food Detected", calories and macros to 0, rating to "Poor", and comment to "Please take a picture of food."
@@ -126,8 +128,7 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
         stream.getTracks().forEach(track => track.stop());
       }
       
-      setStatus('scanning');
-      analyzeImageWithAI(imgData);
+      setStatus('weight_input');
     }
   };
 
@@ -231,6 +232,41 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
           </div>
         )}
 
+        {status === 'weight_input' && (
+          <div className="flex flex-col items-center justify-center h-full pt-2">
+            <h3 className="text-white font-bold text-lg mb-2">How much is this?</h3>
+            <p className="text-gray-400 text-xs mb-4 text-center leading-relaxed">Telling Nexus AI the weight or quantity makes the calorie tracking 100% accurate.</p>
+            <input 
+              type="text"
+              value={foodWeight}
+              onChange={(e) => setFoodWeight(e.target.value)}
+              placeholder="e.g., 200g, 1 bowl, 2 idlis..."
+              className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 mb-4 focus:outline-none focus:border-neon transition-colors text-sm"
+            />
+            <div className="flex gap-3 w-full">
+               <button 
+                onClick={() => {
+                   setStatus('scanning');
+                   analyzeImageWithAI(capturedImage, "");
+                }}
+                className="flex-1 py-3 rounded-xl bg-white/5 text-gray-300 font-semibold hover:bg-white/10 transition-colors"
+              >
+                Skip
+              </button>
+              <button 
+                onClick={() => {
+                   setStatus('scanning');
+                   analyzeImageWithAI(capturedImage, foodWeight);
+                }}
+                disabled={!foodWeight.trim()}
+                className="flex-1 py-3 rounded-xl bg-neon text-black font-extrabold hover:bg-[#2fe512] transition-colors disabled:opacity-50 disabled:hover:bg-neon"
+              >
+                Analyze
+              </button>
+            </div>
+          </div>
+        )}
+
         {status === 'scanning' && (
           <div className="flex flex-col items-center justify-center h-full">
             <div className="w-8 h-8 border-4 border-neon border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -248,6 +284,7 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
                 setCapturedImage(null);
                 setResult(null);
                 setStatus('camera');
+                setFoodWeight("");
                 // Restart stream
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                   .then(s => {
@@ -316,6 +353,7 @@ export default function AICameraScanner({ onClose, onLogMeal }) {
                   setCapturedImage(null);
                   setResult(null);
                   setStatus('camera');
+                  setFoodWeight("");
                   navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then(s => {
                       setStream(s);
